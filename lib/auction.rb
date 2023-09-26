@@ -44,12 +44,14 @@ class Auction
     people_bidding.uniq
   end
 
+  #COULD NOT GET THIS :(
   def bidder_info
     info_of_bidders = Hash.new()
+    #this array will be the subarray of :budget => x, :items => [items]
     budget_and_items = Hash.new()
+    #this array will be the array at the most granular level - the items the attendee has bid on
     items_bid_on = []
 
-    
     @items.each do |item|
       if item.bids != {}
         item.bids.each do |bid|
@@ -57,6 +59,7 @@ class Auction
           budget_and_items[:budget] = bid.first.budget
           bidders.each do |bidder|
             if bid[0].name == bidder
+              require 'pry'; binding.pry
               items_bid_on << item
             end
           end
@@ -65,6 +68,6 @@ class Auction
       end
       budget_and_items[:items] = items_bid_on.uniq
     end
-    info_of_bidders
+  #   info_of_bidders
   end
 end
