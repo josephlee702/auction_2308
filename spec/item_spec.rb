@@ -10,7 +10,7 @@ RSpec.describe Item do
 
     @attendee1 = attendee1 = Attendee.new({name: 'Megan', budget: '$50'})
     @attendee2 = Attendee.new({name: 'Bob', budget: '$75'})
-    
+
     @auction = Auction.new
 
     @auction.add_item(@item1)
@@ -46,6 +46,24 @@ RSpec.describe Item do
       @item4.add_bid(@attendee3, 50)
       expect(@item4.bids).to eq({@attendee3 => 50})
       expect(@item4.current_high_bid).to eq(50)
+    end
+  end
+
+  describe '#close_bidding' do
+    it 'will close the bidding on an item' do
+      @item1.add_bid(@attendee2, 20)
+      @item1.add_bid(@attendee1, 22)
+      expect(@item1.bids).to eq({@attendee2 => 20, @attendee1 => 22})
+      @item1.close_bidding
+      @item1.add_bid(@attendee3, 100)
+      expect(@item1.current_high_bid).to eq(22)
+      #extra tests
+      @item2.add_bid(@attendee2, 100)
+      @item2.add_bid(@attendee4, 5000)
+      expect(@item2.bids).to eq({@attendee2 => 100, @attendee4 => 5000})
+      @item2.close_bidding
+      @item2.add_bid(@addendee1, 1000000000000)
+      expect(@item2.current_high_bid).to eq(5000)
     end
   end
 end
