@@ -31,4 +31,16 @@ class Auction
     end
     pot_rev
   end
+
+  def bidders
+    people_bidding = []
+    @items.each do |item|
+      if item.bids != {}
+        item.bids.each do |bid|
+          people_bidding << bid.first.name
+        end
+      end
+    end
+    people_bidding.uniq
+  end
 end

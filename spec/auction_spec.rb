@@ -3,11 +3,9 @@ require './spec/spec_helper'
 RSpec.describe Auction do
   before(:each) do
     @auction = Auction.new
-
     @attendee1 = Attendee.new({name: 'Megan', budget: '$50'})
     @attendee2 = Attendee.new({name: 'Bob', budget: '$75'})
     @attendee3 = Attendee.new({name: 'Mike', budget: '$100'})
-
     @item1 = Item.new('Chalkware Piggy Bank')
     @item2 = Item.new('Bamboo Picture Frame')
     @item3 = Item.new('Homemade Chocolate Chip Cookies')
@@ -54,4 +52,40 @@ RSpec.describe Auction do
       expect(@auction.potential_revenue).to eq(200)
     end
   end
+
+  describe '#bidders' do
+    it 'lists all attendees who have bid on an item' do
+      expect(@auction.items).to eq([])
+      expect(@auction.bidders).to eq([])
+      @auction.add_item(@item1)
+      @auction.add_item(@item2)
+      @auction.add_item(@item3)
+      expect(@auction.items).to eq([@item1, @item2, @item3])
+      @item1.add_bid(@attendee1, 20)
+      @item1.add_bid(@attendee2, 30)
+      @item2.add_bid(@attendee1, 50)
+      @item2.add_bid(@attendee2, 100)
+      @item3.add_bid(@attendee1, 5)
+      expect(@item1.bids).to eq({@attendee1 => 20, @attendee2 => 30})
+      expect(@auction.bidders).to eq(["Megan", "Bob"])
+      @item3.add_bid(@attendee3, 7)
+      expect(@item3.bids).to eq({@attendee1 => 5, @attendee3 => 7})
+      expect(@auction.bidders).to eq(["Megan", "Bob", "Mike"])
+    end
+  end
+
+  # describe '#bidder_info' do
+  #   it 'returns a hash with attendees, their budget, and what items they bid on ' do
+  #     @auction.add_item(@item1)
+  #     @auction.add_item(@item2)
+  #     @auction.add_item(@item3)
+  #     @item1.add_bid(@attendee1, 20)
+  #     @item1.add_bid(@attendee2, 30)
+  #     @item2.add_bid(@attendee2, 50)
+  #     @item2.add_bid(@attendee2, 100)
+  #     @item3.add_bid(@attendee1, 5)
+
+  #     expect().to eq()
+  #   end
+  # end
 end
