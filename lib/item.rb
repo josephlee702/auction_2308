@@ -9,4 +9,12 @@ class Item
   def add_bid(attendee, amount)
     @bids[attendee] = amount
   end
+
+  def current_high_bid
+    bid_amounts = []
+    @bids.each do |bid|
+      bid_amounts << bid.last
+    end
+    bid_amounts.max
+  end
 end

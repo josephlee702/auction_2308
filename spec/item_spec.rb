@@ -12,6 +12,12 @@ RSpec.describe Item do
     @attendee2 = Attendee.new({name: 'Bob', budget: '$75'})
 
     @auction = Auction.new
+
+    @auction.add_item(@item1)
+    @auction.add_item(@item2)
+    @auction.add_item(@item3)
+    @auction.add_item(@item4)
+    @auction.add_item(@item5)
   end
 
   describe '#initialize' do
@@ -25,15 +31,21 @@ RSpec.describe Item do
 
   describe '#add_bid' do
     it 'adds an attendees bid to the item' do
-      @auction.add_item(@item1)
-      @auction.add_item(@item2)
-      @auction.add_item(@item3)
-      @auction.add_item(@item4)
-      @auction.add_item(@item5)
       expect(@item1.bids).to eq({})
       @item1.add_bid(@attendee2, 20)
       @item1.add_bid(@attendee1, 22)
       expect(@item1.bids).to eq({@attendee2 => 20, @attendee1 => 22})
+    end
+  end
+
+  describe '#current_high_bid' do
+    it 'returns the highest bid of an item' do
+      @item1.add_bid(@attendee2, 20)
+      @item1.add_bid(@attendee1, 22)
+      expect(@item1.current_high_bid).to eq(22)
+      @item4.add_bid(@attendee3, 50)
+      expect(@item4.bids).to eq({@attendee3 => 50})
+      expect(@item4.current_high_bid).to eq(50)
     end
   end
 end
