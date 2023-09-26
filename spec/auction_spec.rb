@@ -1,10 +1,18 @@
-require './spec_helper'
+require './spec/spec_helper'
 
 RSpec.describe Auction do
   before(:each) do
     @auction = Auction.new
+
+    @attendee1 = Attendee.new({name: 'Megan', budget: '$50'})
+    @attendee2 = Attendee.new({name: 'Bob', budget: '$75'})
+    @attendee3 = Attendee.new({name: 'Mike', budget: '$100'})
+
     @item1 = Item.new('Chalkware Piggy Bank')
     @item2 = Item.new('Bamboo Picture Frame')
+    @item3 = Item.new('Homemade Chocolate Chip Cookies')
+    @item4 = Item.new('2 Days Dogsitting')
+    @item5 = Item.new('Forever Stamps')
   end
 
   describe '#initialize' do
